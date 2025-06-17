@@ -67,13 +67,13 @@ docker build -t ansible .
 # 可选：创建容器和网络
 ./create.sh
 
-# 启动容器（请替换网络名）
+# 启动主机管理容器（请替换网络名）
 docker run -itd --name ansible-app \
   --network ansible-net \
   -p 5000:5000 ansible
 
 # 进入容器
-docker exec -it ansible-app bash
+docker exec -it ansible-app /bin/bash
 
 # 启动服务
 cd /root/ansible
@@ -120,8 +120,6 @@ Python 3.x
 Flask
 
 passlib
-
-flask-babel
 
 Docker（可选）
 
