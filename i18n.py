@@ -1,0 +1,37 @@
+translations = {
+    'zh_CN': {
+        'title': '用户登录',
+        'username': '用户名',
+        'password': '密码',
+        'login': '登录',
+        'error_empty': '请输入用户名和密码',
+        'error_network': '网络错误，请稍后重试',
+        'contributors' : '贡献者',
+        'License_Terms' : '授权条款',
+        'GitHub_Repository' : 'GitHub 仓库',
+    },
+    'en': {
+        'title': 'User Login',
+        'username': 'Username',
+        'password': 'Password',
+        'login': 'Login',
+        'error_empty': 'Please enter username and password',
+        'error_network': 'Network error. Please try again later.',
+        'error_login': 'Login failed',
+        'contributors' : 'contributors',
+        'License_Terms' : 'License Terms',
+        'GitHub_Repository' : 'GitHub Repository',
+    },
+    'zh_HK': {
+        'title': '用戶登記',
+        'username': '用戶名',
+        'password': '密碼',
+        'login': '登入',
+        'error_empty': '請輸入用戶名和密碼',
+        'error_network': '網絡錯誤，稍後再試啦！',
+        'error_login': '登入錯誤',
+        'contributors' : '貢獻者',
+        'License_Terms' : '授權條款',
+        'GitHub_Repository' : 'GitHub 倉庫',
+    }
+}

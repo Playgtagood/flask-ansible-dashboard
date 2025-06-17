@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>用户登录</title>
+  <!-- 引入Bootstrap CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <!-- 引入Font Awesome -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+  <style>
+   html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+    .login-container {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 320px;
+    }
+    #error {
+      color: #dc3545; /* Bootstrap danger color */
+      font-size: 0.9rem;
+      margin-top: 10px;
+      min-height: 1.2em;
+      text-align: center;
+    }
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+.dropdown-item img,
+.dropdown-toggle img {
+  border-radius: 3px;
+  vertical-align: middle;
+}
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  footer {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    padding: 20px;
+    border-top: 1px solid #ccc;
+  }
+
+  </style>
+</head>
+<body>
+<main>
+  <div class="login-container">
+    <h2><i class="fas fa-user-circle"></i> {{ t.title }}</h2>
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <input type="text" class="form-control" id="username" placeholder="{{ t.username }}" required autofocus />
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" id="password" placeholder="{{ t.password }}" required />
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">
+        <i class="fas fa-sign-in-alt"></i> {{ t.login }}
+      </button>
+      <div class="dropdown text-center mt-3">
+  <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {% if lang == 'zh_CN' %}
+      <img src="{{ url_for('static', filename='img/flag-cn.png') }}" width="20" class="mr-1"> 中文
+    {% elif  lang == 'zh_HK'%}
+       <img src="{{ url_for('static', filename='img/flag-hk.png') }}" width="20" class="mr-1"> 繁體中文
+    {% else %}
+       <img src="{{ url_for('static', filename='img/flag-us.png') }}" width="20" class="mr-1"> English
+    {% endif %}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="languageDropdown">
+    <a class="dropdown-item" href="?lang=zh_CN">
+      <img src="{{ url_for('static', filename='img/flag-cn.png') }}" width="20" class="mr-2"> 中文
+    </a>
+    <a class="dropdown-item" href="?lang=zh_HK">
+    <img src="{{ url_for('static', filename='img/flag-hk.png') }}" width="20" class="mr-1"> 繁體中文
+  </a>
+    <a class="dropdown-item" href="?lang=en">
+      <img src="{{ url_for('static', filename='img/flag-us.png') }}" width="20" class="mr-2"> English
+    </a>
+  </div>
+</div>
+      <p id="error"></p>
+    </form>
+  </div>
+</main>
+
+
+  <script>
+    const errorMessages = {
+    empty: "{{ t.error_empty }}",
+    network: "{{ t.error_network }}",
+    login: "{{ t.error_login }}"
+  };
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        document.getElementById('error').textContent = errorMessages.empty;
+        return;
+      }
+
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          window.location.href = '/web';
+        } else {
+          document.getElementById('error').textContent = result.message || errorMessages.login;
+        }
+      } catch (err) {
+        document.getElementById('error').textContent = errorMessages.network;
+      }
+    });
+  </script>
+<script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+
+<footer style="text-align: center; font-size: 14px; color: #666; padding: 20px; border-top: 1px solid #ccc; margin-top: 50px;">
+  <div style="margin-bottom: 10px;">
+    <strong>{{t.contributors}}：</strong>
+    <a href="https://github.com/playgtagood" target="_blank" style="margin: 0 10px; text-decoration: none;">
+      <img src="https://github.com/playgtagood.png" alt="Alice" width="30" style="border-radius: 50%; vertical-align: middle;">
+      <span style="margin-left: 5px;">playgtagood</span>
+    </a>
+    <a href="https://github.com/Echo-ui-ux" target="_blank" style="margin: 0 10px; text-decoration: none;">
+      <img src="https://github.com/Echo-ui-ux.png" alt="Bob" width="30" style="border-radius: 50%; vertical-align: middle;">
+      <span style="margin-left: 5px;">Echo-ui-ux</span>
+    </a>
+    <a href="https://github.com/vivi-tat" target="_blank" style="margin: 0 10px; text-decoration: none;">
+      <img src="https://github.com/vivi-tat.png" alt="Bob" width="30" style="border-radius: 50%; vertical-align: middle;">
+      <span style="margin-left: 5px;">vivi-tat</span>
+    </a>
+  </div>
+
+  <div style="margin-top: 10px;">
+    © 2025 Host Screen. {{t.License_Terms}}：<a href="https://github.com/playgtagood/flask-ansible-dashboard" target="_blank">{{t.GitHub_Repository}}</a>
+  </div>
+</footer>
+</body>
+</html>
