@@ -36,8 +36,7 @@ ansible/
 ├── edit.sh # 编辑主机
 ├── hosts # Ansible hosts 列表
 ├── i18n.py # 多语言支持
-├── passwd.py # 用户密码管理（Python）
-├── passwd.sh # 用户密码管理（Shell）
+├── passwd.sh # 用户密码管理（Shell）默认管理用户名和密码 root 12345678
 ├── users.htpasswd # 密码文件
 ├── static/ # 静态文件
 │ ├── css/
