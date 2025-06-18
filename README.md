@@ -56,6 +56,10 @@ Edit
 ## ⚙️ 安装与运行
 
 你可以选择使用 Docker 部署（推荐）或手动运行：
+##  效果如下:
+![image](https://github.com/user-attachments/assets/e6564083-9bac-448c-a325-4bec21682ba6)
+![image](https://github.com/user-attachments/assets/68f9f1bf-f020-48ad-be4d-0cd049f76b5b)
+
 
 ### ✅ 使用 Docker 部署
 
