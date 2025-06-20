@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>用户登录</title>
+  <title>{{ t.title }}</title>
   <!-- 引入Bootstrap CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
   <!-- 引入Font Awesome -->
@@ -145,7 +145,7 @@
     <strong>{{t.contributors}}：</strong>
     <a href="https://github.com/playgtagood" target="_blank" style="margin: 0 10px; text-decoration: none;">
       <img src="https://github.com/playgtagood.png" alt="Alice" width="30" style="border-radius: 50%; vertical-align: middle;">
-      <span style="margin-left: 5px;">playgtagood</span>
+      <span style="margin-left: 5px;">Playgtagood</span>
     </a>
     <a href="https://github.com/Echo-ui-ux" target="_blank" style="margin: 0 10px; text-decoration: none;">
       <img src="https://github.com/Echo-ui-ux.png" alt="Bob" width="30" style="border-radius: 50%; vertical-align: middle;">
@@ -153,12 +153,12 @@
     </a>
     <a href="https://github.com/vivi-tat" target="_blank" style="margin: 0 10px; text-decoration: none;">
       <img src="https://github.com/vivi-tat.png" alt="Bob" width="30" style="border-radius: 50%; vertical-align: middle;">
-      <span style="margin-left: 5px;">vivi-tat</span>
+      <span style="margin-left: 5px;">Vivi-tat</span>
     </a>
   </div>
 
   <div style="margin-top: 10px;">
-    © 2025 Host Screen. {{t.License_Terms}}：<a href="https://github.com/playgtagood/flask-ansible-dashboard" target="_blank">{{t.GitHub_Repository}}</a>
+    © 2025 Flask-Ansible-Dashboard. {{t.License_Terms}}：<a href="https://github.com/playgtagood/flask-ansible-dashboard" target="_blank">{{t.GitHub_Repository}}</a>
   </div>
 </footer>
 </body>

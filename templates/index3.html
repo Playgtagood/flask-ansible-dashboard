@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>综合主机状态监控大屏</title>
+  <title>{{t.title}}</title>
   <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
   <style>
@@ -161,7 +161,7 @@
     
     .controls {
       display: flex;
-      gap: 10px;
+      gap: 10px; 
     }
     
     .btn {
@@ -642,33 +642,103 @@
     background-color: #c82333;
     border-color: #bd2130;
   }
+.lang-selected {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 150px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #0f172a;
+  color: white;
+}
+
+.lang-menu{
+margin-top: 4px;
+position: relative;
+}
+.lang-menu ul{
+margin: 0;
+padding: 0;
+background-color: #1e293b;
+border: 1px solid #334155;
+box-shadow: 0px 1px 10px rgba(0,0,0,0.2);
+border-radius: 5px;
+display: none;
+position: absolute;
+z-index: 1000;
+}
+
+.lang-menu:hover ul{
+display: block;
+}
+
+.lang-menu ul li{
+list-style: none;
+display: flex;
+justify-content: space-between;
+}
+.lang-menu ul li a{
+width: 150px;
+display: block;
+padding: 5px 10px;
+text-decoration: none;
+color: white;
+}
+
+.lang-menu ul li a:hover{
+cursor: pointer;
+background: #f2f2f2;
+}
+
+.flag.cn{
+width: 40px;
+height: 27px;
+margin-right: 10px;
+border-radius:4px;
+vertical-align: middle;
+}
+.flag.us{
+width: 40px;
+height: 21px;
+margin-right: 10px;
+border-radius:4px;
+vertical-align: middle;
+}
+.lang-selected .arrow {
+  font-size: 10px;
+  margin-left: 4px;
+  color: white; 
+}
+
+
   </style>
 </head>
 <body>
   <header>
     <div class="logo">
       <i class="fas fa-server"></i>
-      <h1>综合主机状态监控大屏</h1>
+      <h1>{{t.title}}</h1>
     </div>
     
     <div class="header-controls">
       <div class="search-container">
         <i class="fas fa-search"></i>
-        <input type="text" id="search-input" placeholder="搜索主机名或IP...">
+        <input type="text" id="search-input" placeholder={{t.search}}>
       </div>
       
       <div class="status-indicators">
         <div class="indicator">
           <div class="indicator-badge indicator-online"></div>
-          <span id="online_count">在线: 0</span>
+          <span id="online_count">{{t.oline}}: 0</span>
         </div>
         <div class="indicator">
           <div class="indicator-badge indicator-warning"></div>
-          <span id="warning_count">警告: 0</span>
+          <span id="warning_count">{{t.warming}}: 0</span>
         </div>
         <div class="indicator">
           <div class="indicator-badge indicator-offline"></div>
-          <span id="offline_count">离线: 0</span>
+          <span id="offline_count">{{t.offline}}: 0</span>
         </div>
       </div>
         
@@ -678,12 +748,28 @@
   <div class="main-container">
     <div class="hosts-section">
       <div class="section-header">
-        <h2><i class="fas fa-laptop-code"></i> 主机状态监控</h2>
+        <h2><i class="fas fa-laptop-code"></i> {{t.host_status}}</h2>
         <div class="controls">
-          <button id="refresh-btn" class="btn"><i class="fas fa-sync-alt"></i> 刷新</button>
-          <button id="add-server-btn" class="btn btn-primary"><i class="fas fa-plus"></i> 添加服务器</button>
-          <button onclick="window.location.href='/logout'" class="btn btn-logout"> <i class="fas fa-sign-out-alt"></i> 退出登录</button>
-
+          <button id="refresh-btn" class="btn"><i class="fas fa-sync-alt"></i> {{t.refresh}}</button>
+          <button id="add-server-btn" class="btn btn-primary"><i class="fas fa-plus"></i> {{t.add}}</button>
+          <button onclick="window.location.href='/logout'" class="btn btn-logout"> <i class="fas fa-sign-out-alt"></i> {{t.logout}}</button>
+         <div class="lang-menu">
+          <div class="lang-selected">
+                {% if lang == 'zh_CN' %}
+              <img src="static/img/flag-cn.png" class="flag cn">简体中文
+                {% elif  lang == 'zh_HK'%}
+                <img src="static/img/flag-hk.png" class="flag cn">繁體中文
+	{% else %}
+                <img src="static/img/flag-us.png" class="flag us">English
+	{% endif %}
+                <span class="arrow">▼</span>
+          </div>
+	<ul>
+		<li><a href="?lang=zh_CN"><img src="static/img/flag-cn.png" class="flag cn">简体中文</a></li>
+		<li><a href="?lang=zh_HK"><img src="static/img/flag-hk.png" class="flag cn">繁體中文</a></li>
+		<li><a href="?lang=en" ><img src="static/img/flag-us.png" class="flag us">English</a></li>
+	</ul>
+           </div>
         </div>
       </div>
       
@@ -695,7 +781,7 @@
     <div class="charts-section">
       <div class="chart-container">
         <div class="chart-header">
-          <div class="chart-title"><i class="fas fa-microchip"></i> CPU利用率</div>
+          <div class="chart-title"><i class="fas fa-microchip"></i> {{t.cpu_status}}</div>
           <div class="chart-actions">
             <i class="fas fa-expand"></i>
             <i class="fas fa-cog"></i>
@@ -708,7 +794,7 @@
       
       <div class="chart-container">
         <div class="chart-header">
-          <div class="chart-title"><i class="fas fa-heartbeat"></i> 服务状态</div>
+          <div class="chart-title"><i class="fas fa-heartbeat"></i> {{t.service_status}}</div>
           <div class="chart-actions">
             <i class="fas fa-expand"></i>
             <i class="fas fa-cog"></i>
@@ -721,7 +807,7 @@
       
       <div class="chart-container">
         <div class="chart-header">
-          <div class="chart-title"><i class="fas fa-database"></i> 内存使用</div>
+          <div class="chart-title"><i class="fas fa-database"></i> {{t.memory_status}}</div>
           <div class="chart-actions">
             <i class="fas fa-expand"></i>
             <i class="fas fa-cog"></i>
@@ -734,7 +820,7 @@
       
       <div class="chart-container">
         <div class="chart-header">
-          <div class="chart-title"><i class="fas fa-network-wired"></i> 网络流量</div>
+          <div class="chart-title"><i class="fas fa-network-wired"></i>{{t.data_status}}</div>
           <div class="chart-actions">
             <i class="fas fa-expand"></i>
             <i class="fas fa-cog"></i>
@@ -751,45 +837,45 @@
   <div class="modal-overlay" id="add-server-modal">
     <div class="modal">
       <div class="modal-header">
-        <h2><i class="fas fa-plus-circle"></i> 添加新服务器</h2>
+        <h2><i class="fas fa-plus-circle"></i> {{t.add}}</h2>
         <button class="close-btn">&times;</button>
       </div>
       <div class="modal-body">
         <form id="add-server-form" action="/add" method="post">
           <div class="form-grid">
             <div class="form-group">
-              <label for="ip">IP 地址</label>
+              <label for="ip">{{t.ip}}</label>
               <input type="text" id="ip" name="ip" required placeholder="192.168.1.100">
             </div>
             
             <div class="form-group">
-              <label for="hostname">主机名</label>
-              <input type="text" id="hostname" name="hostname" required placeholder="主机名">
+              <label for="hostname">{{t.hostname}}</label>
+              <input type="text" id="hostname" name="hostname" required placeholder={{t.hostname}}>
             </div>
             
             <div class="form-group">
-              <label for="user">用户名</label>
-              <input type="text" id="user" name="user" required placeholder="用户名">
+              <label for="user">{{t.username}}</label>
+              <input type="text" id="user" name="user" required placeholder={{t.username}}>
             </div>
       
             <div class="form-group">
-              <label for="group">群组名</label>
-              <input type="text" id="group" name="group" placeholder="群组名">
+              <label for="group">{{t.groupname}}</label>
+              <input type="text" id="group" name="group" placeholder={{t.groupname}}>
             </div>
             
             <div class="form-group">
-              <label for="password">密码：</label>
+              <label for="password">{{t.password}}</label>
               <input type="password" id="password" name="password" required placeholder="••••••••">
             </div>
             
             <div class="form-group">
-              <label for="port">端口：</label>
+              <label for="port">{{t.port}}</label>
               <input type="number" id="port" name="port" value="22" required>
             </div>
 
             
             <div class="form-submit">
-              <button type="submit"><i class="fas fa-save"></i> 添加服务器</button>
+              <button type="submit"><i class="fas fa-save"></i> {{t.add}}</button>
             </div>
           </div>
         </form>
@@ -801,35 +887,35 @@
   <div class="modal-overlay" id="edit-server-modal">
     <div class="modal">
       <div class="modal-header">
-        <h2><i class="fas fa-plus-circle"></i> 编辑服务器</h2>
+        <h2><i class="fas fa-plus-circle"></i> {{t.edit}}</h2>
         <button class="close-btn" onclick="document.getElementById('edit-server-modal').classList.remove('active')">&times;</button>
       </div>
       <div class="modal-body">
         <form id="edit-server-form"  method="post">
           <div class="form-grid">
             <div class="form-group">
-              <label for="ip">IP 地址</label>
+              <label for="ip">{{t.ip}}</label>
               <input type="text" id="edit-ip" name="edit-ip" required placeholder="192.168.1.100">
             </div>
             
             <div class="form-group">
-              <label for="hostname">用戶名</label>
-              <input type="text" id="edit-user" name="edit-hostuser" required placeholder="用戶名">
+              <label for="hostname">{{t.username}}</label>
+              <input type="text" id="edit-user" name="edit-hostuser" required placeholder={{t.username}}>
             </div>
             
   
             <div class="form-group">
-              <label for="group">群组名</label>
-              <input type="text" id="edit-group" name="edit-group" placeholder="群组名">
+              <label for="group">{{t.groupname}}</label>
+              <input type="text" id="edit-group" name="edit-group" placeholder={{t.groupname}}>
             </div>
             
             <div class="form-group">
-              <label for="port">端口：</label>
+              <label for="port">{{t.port}}</label>
               <input type="number" id="edit-port" name="edit-port" value="22" required>
             </div>
 
             <div class="form-submit">
-              <button type="submit"><i class="fas fa-save"></i> 保存修改</button>
+              <button type="submit"><i class="fas fa-save"></i> {{t.save}}</button>
             </div>
           </div>
         </form>
@@ -874,10 +960,10 @@ document.getElementById('edit-server-form').addEventListener('submit', function(
   .then(res => res.json())
   .then(res => {
     if (res.success) {
-      alert('修改成功');
+      alert("{{t.edit_success}}");
       location.reload();
     } else {
-      alert('修改失败: ' + res.error);
+      alert("{{t.edit_fail}}" + res.error);
     }
   });
 });
@@ -891,9 +977,9 @@ function fetchAndRenderHosts(filteredHosts) {
       hostsData = data.hosts;
       hostsToRender = filteredHosts || hostsData;
       renderHostCards(hostsToRender);
-      document.getElementById('online_count').textContent = `在线: ${data.online_count}`;
-      document.getElementById('warning_count').textContent = `警告: 0`;
-      document.getElementById('offline_count').textContent = `离线: ${data.offline_count}`;
+      document.getElementById('online_count').textContent = `{{t.online}}: ${data.online_count}`;
+      document.getElementById('warning_count').textContent = `{{t.warming}}: 0`;
+      document.getElementById('offline_count').textContent = `{{t.offline}}: ${data.offline_count}`;
       const dataArray = [data.online_count,0,0,data.offline_count];
       initCharts(dataArray)
     })
@@ -911,19 +997,21 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault(); // 先阻止默认提交
 
     const inputIP = ipInput.value.trim();
+    const ipcheck = "{{t[checkip]}}";
+    const ipmessage = ipcheck.replace("{inputIP}", inputIP);
 
     try {
       const response = await fetch('/api/ips');
       const existingIPs = await response.json();
 
       if (existingIPs.includes(inputIP)) {
-        alert(`IP 地址 ${inputIP} 已存在于主机清单中！`);
+        alert(ipmessage);
         return;
       }
 
       form.submit(); // IP 不存在再正常提交
     } catch (err) {
-      alert('检查 IP 时发生错误，请稍后再试。');
+      alert('t.check_network');
       console.error(err);
     }
   });
@@ -943,10 +1031,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <i class="fas fa-ellipsis-v"></i>
             <div class="host-actions-menu">
               <div class="edit" data-id="${host.id}">
-                <i class="fas fa-edit"></i> 修改
+                <i class="fas fa-edit"></i> {{t.edit}}
               </div>
               <div class="delete" data-id="${host.id}">
-                <i class="fas fa-trash-alt"></i> 删除
+                <i class="fas fa-trash-alt"></i> {{t.delete}}
               </div>
             </div>
           </div>
@@ -956,7 +1044,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="host-name">${host.name}</div>
           <div class="host-ip">${host.ip}</div>
           <div class="host-status ${host.status}">
-            ${host.status === 'online' ? '在线' : host.status === 'warning' ? '警告' : '离线'}
+            ${host.status === 'online' ? '{{t.online}}' : host.status === 'warning' ? '{{t.warming}}' : '{{t.offline}}'}
           </div>
           <div class="host-metrics">
             <div class="metric">
@@ -965,11 +1053,11 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="metric">
               <div class="metric-value">${host.mem}%</div>
-              <div class="metric-label">内存</div>
+              <div class="metric-label">{{t.memory}}</div>
             </div>
             <div class="metric">
               <div class="metric-value">${host.disk}%</div>
-              <div class="metric-label">磁盘</div>
+              <div class="metric-label">{{t.storage}}</div>
             </div>
           </div>
         `;
@@ -998,7 +1086,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.querySelectorAll('.host-actions-menu .edit').forEach(item => {
   item.addEventListener('click', function(e) {
     currentEditId = this.getAttribute('data-id');  // 拿到 hostId
-    alert(`将编辑主机 ID: ${currentEditId}`);
+    alert(`{{t['edit_message']|safe}} ID: ${currentEditId}`);
     document.getElementById('edit-server-modal').classList.add('active');
     closeAllMenus();
   });
@@ -1007,17 +1095,19 @@ document.querySelectorAll('.host-actions-menu .edit').forEach(item => {
       
       document.querySelectorAll('.host-actions-menu .delete').forEach(item => {
   item.addEventListener('click', function(e) {
+    const confirmDeleteTemplate = "{{ t['confirm_delete_host'] }}";
     const hostId = this.getAttribute('data-id');
-    if (confirm(`确定要删除主机 ID: ${hostId} 吗？`)) {
+     const confirmMessage = confirmDeleteTemplate.replace("{host_id}", hostId);
+    if (confirm(confirmMessage)) {
       fetch(`/delete/${hostId}`, {
         method: 'POST'
       })
         .then(response => {
           if (response.ok) {
-            alert(`主机 ID: ${hostId} 已被删除`);
+            alert(`{{t.hostname}} ID: ${hostId} {{t.delete}}`);
             location.reload(); // 刷新页面，显示更新结果
           } else {
-            alert('删除失败');
+            alert('{{t.delete_fail}}');
           }
         })
         .catch(error => {
@@ -1102,7 +1192,7 @@ function initCpuChart() {
     data: {
       labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
       datasets: [{
-        label: 'CPU使用率',
+        label: 'CPU',
         data: [24, 19, 32, 18, 29, 22],
         borderColor: '#3b82f6',
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
@@ -1132,7 +1222,7 @@ function initServiceStatusChart(dataArray) {
     serviceStatusChartInstance = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: ['正常', '警告', '故障', '离线'],
+        labels: ['{{t.online}}', '{{t.warming}}', '{{t.error}}', '{{t.offline}}'],
         datasets: [{
           data: dataArray,
           backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#64748b'],
@@ -1163,7 +1253,7 @@ function initMemoryChart() {
     data: {
       labels: ['Web', 'DB', 'App', 'File', 'Backup'],
       datasets: [{
-        label: '内存使用',
+        label: '{{t.memory}}',
         data: [65, 78, 82, 43, 67],
         backgroundColor: 'rgba(139, 92, 246, 0.7)',
         borderColor: '#8b5cf6',
@@ -1199,7 +1289,7 @@ function initNetworkChart() {
       labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
       datasets: [
         {
-          label: '入口流量',
+          label: '{{t.input}}',
           data: [12, 18, 15, 22, 28, 24],
           borderColor: '#8b5cf6',
           backgroundColor: 'rgba(139, 92, 246, 0.1)',
@@ -1208,7 +1298,7 @@ function initNetworkChart() {
           tension: 0.4
         },
         {
-          label: '出口流量',
+          label: '{{t.output}}',
           data: [8, 14, 10, 18, 22, 20],
           borderColor: '#ec4899',
           backgroundColor: 'rgba(236, 72, 153, 0.1)',
@@ -1255,25 +1345,25 @@ function initNetworkChart() {
     });
 
   </script>
-<footer style="text-align: center; font-size: 14px; color: #666; padding: 20px; border-top: 1px solid #ccc; margin-top: 50px;">
+<footer style="text-align: center; font-size: 14px; color: white; padding: 20px; border-top: 2px solid #1e293b; margin-top: 50px; border-radius: 5px;">
   <div style="margin-bottom: 10px;">
-    <strong>Contributors：</strong>
-    <a href="https://github.com/playgtagood" target="_blank" style="margin: 0 10px; text-decoration: none;">
+    <strong>{{t.contributors}}：</strong>
+    <a href="https://github.com/playgtagood" target="_blank" style="margin: 0 10px; text-decoration: none; color: white">
       <img src="https://github.com/playgtagood.png" alt="Alice" width="30" style="border-radius: 50%; vertical-align: middle;">
-      <span style="margin-left: 5px;">playgtagood</span>
+      <span style="margin-left: 5px;">Playgtagood</span>
     </a>
-    <a href="https://github.com/Echo-ui-ux" target="_blank" style="margin: 0 10px; text-decoration: none;">
+    <a href="https://github.com/Echo-ui-ux" target="_blank" style="margin: 0 10px; text-decoration: none; color: white">
       <img src="https://github.com/Echo-ui-ux.png" alt="Bob" width="30" style="border-radius: 50%; vertical-align: middle;">
       <span style="margin-left: 5px;">Echo-ui-ux</span>
     </a>
-    <a href="https://github.com/vivi-tat" target="_blank" style="margin: 0 10px; text-decoration: none;">
+    <a href="https://github.com/vivi-tat" target="_blank" style="margin: 0 10px; text-decoration: none; color: white">
       <img src="https://github.com/vivi-tat.png" alt="Bob" width="30" style="border-radius: 50%; vertical-align: middle;">
-      <span style="margin-left: 5px;">vivi-tat</span>
+      <span style="margin-left: 5px;">Vivi-tat</span>
     </a>
   </div>
 
   <div style="margin-top: 10px;">
-    © 2025 Host Screen. License Terms：<a href="https://github.com/playgtagood/flask-ansible-dashboard" target="_blank">GitHub Repository</a>
+    © 2025 Flask-Ansible-Dashboard. License Terms：<a href="https://github.com/playgtagood/flask-ansible-dashboard" target="_blank" style="text-decoration: none; color: white">GitHub Repository</a>
   </div>
 </footer>
 </body>

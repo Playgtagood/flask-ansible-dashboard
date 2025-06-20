@@ -18,7 +18,7 @@ translations = {
         'error_empty': 'Please enter username and password',
         'error_network': 'Network error. Please try again later.',
         'error_login': 'Login failed',
-        'contributors' : 'contributors',
+        'contributors' : 'Contributors',
         'License_Terms' : 'License Terms',
         'GitHub_Repository' : 'GitHub Repository',
     },

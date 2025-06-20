@@ -1,6 +1,7 @@
 from flask import Flask, render_template,jsonify,request,redirect,url_for, session
 from passlib.apache import HtpasswdFile
 from i18n import translations
+from i17n import globalweb
 import subprocess
 import re
 import json
@@ -29,16 +30,23 @@ def check_user_password(username, password):
     
 @app.route('/')
 def index():
-    lang = request.args.get('lang', 'zh_CN')
+    lang = request.args.get('lang', session.get('lang', 'zh_CN'))
     if lang not in translations:
         lang = 'zh_CN'
+    session['lang'] = lang
     return render_template('login.html', t=translations[lang], lang=lang)
 
 @app.route('/web')
 def web():
     if 'user' not in session:
         return render_template('login.html')
-    return render_template('index3.html')
+    lang = request.args.get('lang', session.get('lang', 'zh_CN'))
+    if lang not in globalweb:
+        lang = 'zh_CN'
+    session['lang'] = lang
+    return render_template('index3.html'
+                           , t=globalweb[lang], lang=lang
+                           )
 
 @app.route('/logout')
 def logout():
@@ -183,9 +191,9 @@ def get_hosts_status():
 
 if __name__ == "__main__":
         app.run(host="0.0.0.0", port=5000, debug=False
-                #, ssl_context=(
-           #"/etc/letsencrypt/live/YourDomainName/fullchain.pem",
-           #"/etc/letsencrypt/live/YourDomainName/privkey.pem")
+                , ssl_context=(
+           "/etc/letsencrypt/live/qiuqi.fun/fullchain.pem",
+           "/etc/letsencrypt/live/qiuqi.fun/privkey.pem")
                 )
         
 

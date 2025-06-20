@@ -1,5 +1,5 @@
 [weds]
 second  ansible_user=root ansible_port=22 ansible_ssh_pass=gwngG201
 
-[wddsc]
-third  ansible_user=root ansible_port=22 ansible_ssh_pass=rfferfer
+[Soey]
+third  ansible_user=root ansible_port=22 ansible_ssh_pass=gwngG201
